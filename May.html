@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flor Geométrica Animada</title>
+<style>
+    body {
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        font-family: Arial, sans-serif;
+    }
+    .flower-container {
+        position: relative;
+    }
+    .text {
+        color: white;
+        font-size: 24px;
+        text-align: center;
+        position: absolute;
+        top: 400px;
+        width: 100%;
+        opacity: 0;
+        animation: fadeIn 3s ease-in-out forwards 1.8s;
+    }
+    .love-button {
+        margin-top: 60px;
+        padding: 10px 20px;
+        font-size: 20px;
+        color: white;
+        background-color: red;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .love-button:hover {
+        background-color: darkred;
+    }
+    @keyframes growPetal {
+        0% { opacity: 0; transform: scale(0) rotate(0); }
+        100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+    @keyframes growCenter {
+        0% { r: 0; opacity: 0; }
+        100% { r: 40; opacity: 1; }
+    }
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    .flower-container svg {
+        transform: rotateX(20deg) rotateY(20deg);
+    }
+    .petal {
+        filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.3));
+    }
+    .center {
+        filter: drop-shadow(0px 0px 20px rgba(255, 140, 0, 0.8));
+    }
+    .center-gradient {
+        fill: url(#center-gradient);
+    }
+</style>
+</head>
+<body>
+    <div class="flower-container">
+        <svg width="400" height="500" viewBox="0 0 400 500">
+            <defs>
+                <radialGradient id="center-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                    <stop offset="0%" style="stop-color: #ff4500; stop-opacity: 1" />
+                    <stop offset="100%" style="stop-color: #b22222; stop-opacity: 1" />
+                </radialGradient>
+            </defs>
+
+            <circle class="center center-gradient" cx="200" cy="200" r="40" stroke="brown" stroke-width="3"
+                style="animation: growCenter 1s ease-out forwards;" />
+
+            <g id="petalGroup" fill="none" transform="translate(200,200)"></g>
+
+            <rect x="190" y="300" width="20" height="150" fill="green" />
+            <ellipse cx="230" cy="340" rx="40" ry="20" fill="limegreen" transform="rotate(-20 230 340)" />
+        </svg>
+        <div class="text">Una florecita para Mi Mayra Hermosa❤️✨</div>
+    </div>
+
+    <!-- Botón único -->
+    <button class="love-button" onclick="mostrarAmor()">Clic</button>
+
+    <!-- Audio desde el MP3 local -->
+    <audio id="audio" src="ThoseEyes.mp3" autoplay loop></audio>
+
+    <script>
+        // Animación de pétalos
+        document.addEventListener("DOMContentLoaded", () => {
+            const svgNS = "http://www.w3.org/2000/svg";
+            const petalGroup = document.getElementById("petalGroup");
+
+            for (let i = 0; i < 16; i++) {
+                let angle = i * 22.5;
+
+                let petal = document.createElementNS(svgNS, "path");
+                petal.setAttribute("d", "M0,0 Q50,-80 100,0 Q50,80 0,0");
+                petal.setAttribute("class", "petal");
+                petal.setAttribute("stroke", "gold");
+                petal.setAttribute("stroke-width", "2");
+                petal.setAttribute("fill", "rgba(255, 255, 0, 0.15)");
+
+                let petalWrapper = document.createElementNS(svgNS, "g");
+                petalWrapper.setAttribute("transform", `rotate(${angle})`);
+                petalWrapper.appendChild(petal);
+
+                petal.style.opacity = "0";
+                petal.style.animation = `growPetal 0.8s ease-out forwards ${i * 0.15}s`;
+
+                petalGroup.appendChild(petalWrapper);
+            }
+        });
+
+        // Función del botón
+        function mostrarAmor() {
+            alert("💗Gracias mi niña linda, cada momento contigo es especial y me hace muy feliz. Tus ojos me enamoraron, y cada día te quiero más.🫂✨");
+            const audio = document.getElementById("audio");
+            audio.play(); // reproducir si el autoplay fue bloqueado
+        }
+    </script>
+</body>
+</html>
